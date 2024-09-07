@@ -1,0 +1,102 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3 class="card-title mb-4">{{ titulo }}</h3>
+    <form [formGroup]="frm_Producto" (ngSubmit)="grabar()">
+      <div class="mb-3">
+        <label for="Codigo_Barras" class="form-label">Código de Barras</label>
+        <input type="text" class="form-control" id="Codigo_Barras" formControlName="Codigo_Barras">
+        <div class="text-danger" *ngIf="frm_Producto.get('Codigo_Barras')?.invalid && frm_Producto.get('Codigo_Barras')?.touched">
+          El código de barras es requerido
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Nombre_Producto" class="form-label">Nombre del Producto</label>
+        <input type="text" class="form-control" id="Nombre_Producto" formControlName="Nombre_Producto">
+        <div class="text-danger" *ngIf="frm_Producto.get('Nombre_Producto')?.invalid && frm_Producto.get('Nombre_Producto')?.touched">
+          El nombre del producto es requerido
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Graba_IVA" class="form-label">Graba IVA</label>
+        <select class="form-select" id="Graba_IVA" formControlName="Graba_IVA">
+          <option [ngValue]="1">Sí</option>
+          <option [ngValue]="0">No</option>
+        </select>
+        <div class="text-danger" *ngIf="frm_Producto.get('Graba_IVA')?.invalid && frm_Producto.get('Graba_IVA')?.touched">
+          Debe seleccionar si graba IVA o no
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Unidad_Medida_idUnidad_Medida" class="form-label">Unidad de Medida</label>
+        <select class="form-select" id="Unidad_Medida_idUnidad_Medida" formControlName="Unidad_Medida_idUnidad_Medida">
+          <option value="">Seleccione Unidad de Medida</option>
+          <option *ngFor="let unidad of listaUnidadMedida" [ngValue]="unidad.idUnidad_Medida">
+            {{ unidad.Detalle }}
+          </option>
+        </select>
+        <div class="text-danger" *ngIf="frm_Producto.get('Unidad_Medida_idUnidad_Medida')?.invalid && frm_Producto.get('Unidad_Medida_idUnidad_Medida')?.touched">
+          La unidad de medida es requerida
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="IVA_idIVA" class="form-label">IVA</label>
+        <select class="form-select" id="IVA_idIVA" formControlName="IVA_idIVA">
+          <option value="">Seleccione IVA</option>
+          <option *ngFor="let iva of listaIVA" [ngValue]="iva.idIVA">
+            {{ iva.Detalle }} ({{ iva.Valor }}%)
+          </option>
+        </select>
+        <div class="text-danger" *ngIf="frm_Producto.get('IVA_idIVA')?.invalid && frm_Producto.get('IVA_idIVA')?.touched">
+          El IVA es requerido
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Cantidad" class="form-label">Cantidad</label>
+        <input type="number" class="form-control" id="Cantidad" formControlName="Cantidad">
+        <div class="text-danger" *ngIf="frm_Producto.get('Cantidad')?.invalid && frm_Producto.get('Cantidad')?.touched">
+          La cantidad es requerida y debe ser mayor a 0
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Valor_Compra" class="form-label">Valor de Compra</label>
+        <input type="number" class="form-control" id="Valor_Compra" formControlName="Valor_Compra">
+        <div class="text-danger" *ngIf="frm_Producto.get('Valor_Compra')?.invalid && frm_Producto.get('Valor_Compra')?.touched">
+          El valor de compra es requerido y debe ser mayor o igual a 0
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Valor_Venta" class="form-label">Valor de Venta</label>
+        <input type="number" class="form-control" id="Valor_Venta" formControlName="Valor_Venta">
+        <div class="text-danger" *ngIf="frm_Producto.get('Valor_Venta')?.invalid && frm_Producto.get('Valor_Venta')?.touched">
+          El valor de venta es requerido y debe ser mayor o igual a 0
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="Proveedores_idProveedores" class="form-label">Proveedor</label>
+        <select class="form-select" id="Proveedores_idProveedores" formControlName="Proveedores_idProveedores">
+          <option value="">Seleccione Proveedor</option>
+          <option *ngFor="let proveedor of listaProveedores" [ngValue]="proveedor.idProveedores">
+            {{ proveedor.Nombre_Empresa }}
+          </option>
+        </select>
+        <div class="text-danger" *ngIf="frm_Producto.get('Proveedores_idProveedores')?.invalid && frm_Producto.get('Proveedores_idProveedores')?.touched">
+          El proveedor es requerido
+        </div>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary" [disabled]="frm_Producto.invalid">
+          {{ idProducto ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

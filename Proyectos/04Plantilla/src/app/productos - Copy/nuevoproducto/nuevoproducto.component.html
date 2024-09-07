@@ -1,0 +1,134 @@
+<div class="card my-5">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <h3 class="mb-0">
+        {{ titulo }}
+        <!--Interpolacion
+            sirve para enviar datos desde el .ts hacia el html
+          -->
+      </h3>
+    </div>
+
+    <form [formGroup]="frm_Producto" (ngSubmit)="grabar()">
+      <div class="row">
+        <div class="form-group mb-3">
+          <label for="Codigo_Barras">Código de Barras</label>
+          <input type="text" class="form-control" id="Codigo_Barras" formControlName="Codigo_Barras">
+          <div *ngIf="frm_Producto.get('Codigo_Barras').invalid && frm_Producto.get('Codigo_Barras').touched" class="small text-danger">
+            El código de barras es requerido
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Nombre_Producto">Nombre del Producto</label>
+          <input type="text" class="form-control" id="Nombre_Producto" formControlName="Nombre_Producto">
+          <div *ngIf="frm_Producto.get('Nombre_Producto').invalid && frm_Producto.get('Nombre_Producto').touched" class="small text-danger">
+            El nombre del producto es requerido
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Graba_IVA">Graba IVA</label>
+          <select class="form-control" id="Graba_IVA" formControlName="Graba_IVA">
+            <option value="">Seleccione</option>
+            <option [value]="1">Sí</option>
+            <option [value]="0">No</option>
+          </select>
+          <div *ngIf="frm_Producto.get('Graba_IVA').invalid && frm_Producto.get('Graba_IVA').touched" class="small text-danger">
+            Debe seleccionar si graba IVA o no
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Unidad_Medida_idUnidad_Medida">Unidad de Medida</label>
+          <select class="form-control" id="Unidad_Medida_idUnidad_Medida" formControlName="Unidad_Medida_idUnidad_Medida">
+            <option value="">Seleccione Unidad de Medida</option>
+            @for (unidad of listaUnidadMedida; track $index) {
+              <option [value]="unidad.idUnidad_Medida">{{ unidad.Detalle }}</option>
+            }
+          </select>
+          <div *ngIf="frm_Producto.get('Unidad_Medida_idUnidad_Medida').invalid && frm_Producto.get('Unidad_Medida_idUnidad_Medida').touched" class="small text-danger">
+            La unidad de medida es requerida
+          </div>
+        </div>
+
+       <!-- <div class="form-group mb-3">
+          <label class="form-label" for="IVA_idIVA">IVA</label>
+          <select formControlName="IVA_idIVA" class="form-control" id="IVA_idIVA">
+            <option *ngFor="let iva of ivas" [value]="iva.idIVA">
+              {{ iva.Detalle }}
+            </option>
+          </select>
+        </div>-->
+
+
+        <div class="form-group mb-3">
+          <label for="IVA_idIVA">IVA</label>
+          <select class="form-control" id="IVA_idIVA" formControlName="IVA_idIVA">
+            <option value="">Seleccione IVA</option>
+            @for (iva of listaIVA; track $index) {
+              <option [value]="iva.idIVA">{{ iva.Detalle }} ({{ iva.Valor }}%)</option>
+            }
+          </select>
+          <div *ngIf="frm_Producto.get('IVA_idIVA').invalid && frm_Producto.get('IVA_idIVA').touched" class="small text-danger">
+            El IVA es requerido
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Cantidad">Cantidad</label>
+          <input type="number" class="form-control" id="Cantidad" formControlName="Cantidad">
+          <div *ngIf="frm_Producto.get('Cantidad').invalid && frm_Producto.get('Cantidad').touched" class="small text-danger">
+            La cantidad es requerida y debe ser mayor a 0
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Valor_Compra">Valor de Compra</label>
+          <input type="number" class="form-control" id="Valor_Compra" formControlName="Valor_Compra">
+          <div *ngIf="frm_Producto.get('Valor_Compra').invalid && frm_Producto.get('Valor_Compra').touched" class="small text-danger">
+            El valor de compra es requerido y debe ser mayor o igual a 0
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Valor_Venta">Valor de Venta</label>
+          <input type="number" class="form-control" id="Valor_Venta" formControlName="Valor_Venta">
+          <div *ngIf="frm_Producto.get('Valor_Venta').invalid && frm_Producto.get('Valor_Venta').touched" class="small text-danger">
+            El valor de venta es requerido y debe ser mayor o igual a 0
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Proveedores_idProveedores">Proveedor</label>
+          <select class="form-control" id="Proveedores_idProveedores" formControlName="Proveedores_idProveedores">
+            <option value="">Seleccione Proveedor</option>
+            @for (proveedor of listaProveedores; track $index) {
+              <option [value]="proveedor.idProveedores">{{ proveedor.Nombre_Empresa }}</option>
+            }
+          </select>
+          <div *ngIf="frm_Producto.get('Proveedores_idProveedores').invalid && frm_Producto.get('Proveedores_idProveedores').touched" class="small text-danger">
+            El proveedor es requerido
+          </div>
+        </div>
+
+        <div class="d-grid mt-3">
+          <button type="submit" class="btn btn-primary" [disabled]="frm_Producto.invalid">Grabar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--
+    IMPORTAR => FORMSMODULE EN APP.MODULE.TS || NUEVOPRODUCTO.COMPONENT.TS
+    
+    INTERPOLACION => DESDE EL TS AL HTML
+    {{ }} 
+    EVENTOS => EJECUTAR FUNCIONES EN EL TS
+    ()
+    DATA BINDING => DESDE EL HTML AL TS
+    []
+    TWO WAY BINDING => ENVIADO DE DATOS DESDE EL HTML AL TS Y DESDE EL TS AL HTML
+    [()]
+  -->

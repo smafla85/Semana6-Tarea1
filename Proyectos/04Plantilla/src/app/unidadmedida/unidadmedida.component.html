@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="col-md-12 col-xl-8">
+      <h5 class="mb-3">
+        <a routerLink="/nuevaunidadmedida" class="btn btn-outline-dark">
+          Nuevo Unidad de Medida
+        </a>
+      </h5>
+
+      <div class="card tbl-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Detalle</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (unidadmedida of listaunidades; track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ unidadmedida.Detalle }}</td>
+                  <td>
+                    @if (unidadmedida.Tipo == 0) {
+                      Presentacion
+                    } @else if (unidadmedida.Tipo == 1) {
+                      Unidad de Medida
+                    } @else {
+                      Factor de Conversion
+                    }
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2" (click)="editar(unidadmedida.idUnidad_Medida)">Editar</button>
+                    <button class="btn btn-danger btn-sm" (click)="eliminar(unidadmedida.idUnidad_Medida)">Eliminar</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
